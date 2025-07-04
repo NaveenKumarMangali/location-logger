@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head><title>Get Location and Log to Google Sheet</title></head>
+<body>
+  <h2>Click to Get and Log Your Location</h2>
+  <button onclick="getLocation()">Get Location</button>
+  <p id="output"></p>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        document.getElementById("output").innerText = "Geolocation not supported.";
+      }
+    }
+
+    function showPosition(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      document.getElementById("output").innerText =
+        `Latitude: ${lat}, Longitude: ${lon}`;
+
+      // Send to Google Sheet
+      fetch("YOUR_WEB_APP_URL", {
+        method: "POST",
+        body: JSON.stringify({ latitude: lat, longitude: lon }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(res => {
+        if (res.ok) {
+          console.log("Logged to Google Sheet");
+        } else {
+          console.error("Failed to log");
+        }
+      }).catch(err => {
+        console.error("Error:", err);
+      });
+    }
+
+    function showError(error) {
+      document.getElementById("output").innerText =
+        "Error getting location: " + error.message;
+    }
+  </script>
+</body>
+</html>
