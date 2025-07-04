@@ -23,7 +23,7 @@
         `Latitude: ${lat}, Longitude: ${lon}`;
 
       // Send to Google Sheet
-      fetch("YOUR_WEB_APP_URL", {
+      fetch("https://script.google.com/macros/s/AKfycbwktnHBKZsEPzJ6W2uedWiauvRpNOc-h16ML8NmBY8pfCRlHE1BsPHHU-JSAdBoehQ/exec", {
         method: "POST",
         body: JSON.stringify({ latitude: lat, longitude: lon }),
         headers: {
